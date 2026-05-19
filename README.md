@@ -109,6 +109,28 @@
 
 ---
 
+## 部署架构
+
+GitHub Pages 是纯静态托管，浏览器直接调用火山方舟 API 会被 CORS 拦截。当前方案通过 **Cloudflare Workers** 做边缘反代解决此问题：
+
+```
+用户浏览器
+    ↓  访问
+GitHub Pages（静态前端）
+    ↓  API 请求（带用户自己的 Authorization Key）
+Cloudflare Worker · wander-proxy（CORS 转发，免费 10 万次/天）
+    ↓  透传
+火山方舟 API（ark.cn-beijing.volces.com）
+```
+
+- Worker 只转发 `/api/v3/*` 路径，不存储、不记录任何请求内容
+- Key 由用户在请求头里携带，全程不落地任何服务器
+- 本地 `npm run dev` 走 Vite proxy，不经过 Worker，行为与生产一致
+
+Worker 源码见 `proxy/`，使用 `wrangler deploy` 一键部署到 Cloudflare 免费层。
+
+---
+
 ## 可优化方向
 
 ### Redis 后端缓存（景点与票务）
