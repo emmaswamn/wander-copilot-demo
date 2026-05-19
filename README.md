@@ -76,7 +76,7 @@
 ② derive（纯代码，0 次 API 调用）
      title / summary / poi_pricing / disclaimer
 
-③ 分块生成（火山方舟 Chat Completions，共 5 次）
+③ 分块生成（火山方舟 Responses API，共 5 次）
      trip_cost → transport → play_what → drive_route_road → daily
 
 ④ 拼接
@@ -89,7 +89,7 @@
 |---|---|---|
 | POI 票务联网检索 | Responses + web_search | ~14k |
 | POI 配图联网检索 | Responses + web_search | ~10k |
-| 分块 LLM 生成（5 次） | Chat Completions | ~20k |
+| 分块 LLM 生成（5 次） | Responses API | ~20k |
 | 目的地推荐 + 景点拉取 | Chat / Responses | ~8k |
 | **自驾单篇合计** | | **~50k～65k tokens** |
 
